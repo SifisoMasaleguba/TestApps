@@ -1,0 +1,21 @@
+USE [TestDB]
+GO
+
+IF OBJECT_ID(N'dbo.COMMENT', N'U') IS NOT NULL
+   DROP TABLE [dbo].[COMMENT];
+GO
+
+CREATE TABLE [dbo].[COMMENT](
+	[CommentId] int IDENTITY(1,1) NOT NULL,
+	[ProductId] int NOT NULL,
+	[Comment] varchar (500) NOT NULL,
+	[Email] nvarchar(256) NULL,	
+	[DateOfComment] datetime NULL,	
+ CONSTRAINT [PK_PON_ID] PRIMARY KEY CLUSTERED
+(
+	[CommentId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[COMMENT] ADD  CONSTRAINT [DF_DateOfComment]  DEFAULT (getdate()) FOR [DateOfComment]
+GO
