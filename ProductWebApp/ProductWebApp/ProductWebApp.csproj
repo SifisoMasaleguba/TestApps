@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -48,7 +49,19 @@
     <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.2.0.123\lib\net461\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json.Bson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.Bson.1.0.2\lib\net45\Newtonsoft.Json.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -111,6 +124,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -129,6 +145,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
@@ -159,10 +176,12 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +215,55 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\dataTables.bootstrap.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\dataTables.bootstrap.min.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\dataTables.bootstrap4.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\dataTables.bootstrap5.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\dataTables.bootstrap5.min.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\dataTables.bulma.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\dataTables.bulma.min.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\dataTables.dataTables.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\dataTables.dataTables.min.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\dataTables.foundation.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\dataTables.foundation.min.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\dataTables.jqueryui.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\dataTables.jqueryui.min.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\dataTables.semanticui.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\dataTables.semanticui.min.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\jquery.dataTables.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\css\jquery.dataTables.min.css" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\images\sort_asc.png" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\images\sort_asc_disabled.png" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\images\sort_both.png" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\images\sort_desc.png" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\images\sort_desc_disabled.png" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\dataTables.bootstrap.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\dataTables.bootstrap.min.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\dataTables.bootstrap4.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\dataTables.bootstrap5.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\dataTables.bootstrap5.min.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\dataTables.bulma.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\dataTables.bulma.min.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\dataTables.dataTables.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\dataTables.dataTables.min.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\dataTables.foundation.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\dataTables.foundation.min.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\dataTables.jqueryui.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\dataTables.jqueryui.min.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\dataTables.semanticui.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\dataTables.semanticui.min.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\jquery.dataTables.js" />
+    <Content Include="Scripts\datatables\DataTables-1.13.1\js\jquery.dataTables.min.js" />
+    <Content Include="Scripts\datatables\datatables.css" />
+    <Content Include="Scripts\datatables\datatables.js" />
+    <Content Include="Scripts\datatables\datatables.min.css" />
+    <Content Include="Scripts\datatables\datatables.min.js" />
+    <Content Include="Scripts\datatables\DateTime-1.2.0\css\dataTables.dateTime.css" />
+    <Content Include="Scripts\datatables\DateTime-1.2.0\css\dataTables.dateTime.min.css" />
+    <Content Include="Scripts\datatables\DateTime-1.2.0\js\dataTables.dateTime.js" />
+    <Content Include="Scripts\datatables\DateTime-1.2.0\js\dataTables.dateTime.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -218,7 +286,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -250,9 +317,17 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ProductWebApp.Business\ProductWebApp.Business.csproj">
+      <Project>{03bcc35b-5390-4c8a-83c6-7dc8a878d66e}</Project>
+      <Name>ProductWebApp.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProductWebApp.Entities\ProductWebApp.Entities.csproj">
       <Project>{1f483215-34f4-4e10-9bb9-b1ca026bf2d2}</Project>
       <Name>ProductWebApp.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProductWebApp.Repository\ProductWebApp.Repository.csproj">
+      <Project>{5eaa39ce-a7b4-4e05-b079-bf4e2e108e8e}</Project>
+      <Name>ProductWebApp.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -288,7 +363,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

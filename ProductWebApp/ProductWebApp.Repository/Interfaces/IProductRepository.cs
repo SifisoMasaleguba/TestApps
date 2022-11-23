@@ -10,9 +10,9 @@ namespace ProductWebApp.Repository.Interfaces
     public interface IProductRepository
     {
         IEnumerable<Product> GetProduct(int productId);
-        void AddProduct(Product product);       
-        void UpdateProduct(Product product);
-        void DeleteProduct(int productId);
+        Product AddProduct(Product product);
+        Product UpdateProduct(Product product);
+        void DeleteProduct(Product product);
     }
 
 }

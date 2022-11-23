@@ -25,7 +25,7 @@ ALTER PROCEDURE [dbo].[STP_COMMENT]
 	   C.ProductId,
 	   C.Comment,
 	   C.Email,
-	   DateOfComment = ISNULL(CONVERT(VARCHAR, C.DateOfComment , 103), '')
+	   DateOfComment
 	FROM
 		 [dbo].[COMMENT] C WITH (ROWLOCK)
 	WHERE 1 = 1	

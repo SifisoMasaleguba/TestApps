@@ -10,18 +10,16 @@ namespace ProductWebApp.Business
 {
     public class CommentManager
     {
-        private CommentRepository repository;
-        public CommentManager() {
-            repository = new CommentRepository();
-        }
-
+       
         public IEnumerable<Comment> GetComments(int productId)
         {
-           return repository.GetComments(productId);
+            CommentRepository repository = new CommentRepository();
+            return repository.GetComments(productId);
         }
         public void AddComment(Comment comment)
         {
-             repository.AddComment(comment);
+            CommentRepository repository = new CommentRepository();
+            repository.AddComment(comment);
         }
 
     }

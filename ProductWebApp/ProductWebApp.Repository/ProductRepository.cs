@@ -19,20 +19,22 @@ namespace ProductWebApp.Repository
         }
 
 
-        public void DeleteProduct(int productId) {
+
+        public void DeleteProduct(Product product) {           
             var parameters = new DynamicParameters();            
-            parameters.Add("@ProductId", productId);
+            parameters.Add("@ProductId", product.ProductId);
             dataSourceWeb.Connection().Execute("STP_PRODUCT_DELETE", parameters, commandType: CommandType.StoredProcedure);
         }
 
-        public void AddProduct(Product product)
+        public Product AddProduct(Product product)
         {
-          
             var parameters = new DynamicParameters();
             parameters.Add("@Name", product.Name);
             parameters.Add("@Price", product.Price);
             parameters.Add("@ReleaseDate", product.ReleaseDate);         
             dataSourceWeb.Connection().Execute("STP_PRODUCT_ADD", parameters, commandType: CommandType.StoredProcedure);
+            return product;
+            
         }
 
         public IEnumerable<Product> GetProduct(int productId)
@@ -48,13 +50,15 @@ namespace ProductWebApp.Repository
             return dataSourceWeb.Connection().Query<Product>("STP_PRODUCTS", null, commandType: CommandType.StoredProcedure).ToList();            
         }
 
-        public void UpdateProduct(Product product)
+        public Product UpdateProduct(Product product)
         {
             var parameters = new DynamicParameters();
+            parameters.Add("@ProductId", product.ProductId);
             parameters.Add("@Name", product.Name);
             parameters.Add("@Price", product.Price);
             parameters.Add("@ReleaseDate", product.ReleaseDate);
-            dataSourceWeb.Connection().Execute("STP_PRODUCT_ADD", parameters, commandType: CommandType.StoredProcedure);
+            dataSourceWeb.Connection().Execute("STP_PRODUCT_UPDATE", parameters, commandType: CommandType.StoredProcedure);
+            return product;
         }
     }
 }

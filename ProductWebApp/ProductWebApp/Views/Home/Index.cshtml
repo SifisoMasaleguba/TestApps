@@ -1,24 +1,425 @@
-﻿<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+﻿
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-        a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-        is an ideal platform for building RESTful applications on the .NET Framework.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">
+                <h3 class="panel-title">Please enter the product details below.</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label>Name</label>
+                        <input type="text" name="Name" id="ProductName" class="form-control newproduct" placeholder="Enter Product Name" required="" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Price</label>
+                        <input type="text" name="Price" id="ProductPrice" class="form-control newproduct" placeholder="Enter Price" required="" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Release date</label>
+                        <input type="text" name="ReleaseDate" id="ProductReleaseDate" class="form-control newproduct datepicker" placeholder="Select Release Date" required="" />
+                    </div>
+                 
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <div style="float: left; display:inline-block;">
+                            <input class="btn btn-primary" name="submitButton" id="btnAddProduct" value="Add Product" type="button">
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div><hr />
+        <table id="productTable" class="display hover table table-striped table-bordered" style="width:100%;">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th align="left" class="productth">Product</th>
+                    <th align="left" class="productth">Price</th>
+                    <th align="left" class="productth">Release Date</th>
+                    <th align="left" class="productth">Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
 </div>
+
+<div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="editProductModal" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" style="width:50%">
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center;">
+                <h2 class="modal-title capture-modal-title" id="modalHeading" >Edit Product</h2>
+            </div>
+            <div class="modal-body">
+                <div class="row mt" style="border-bottom: 1px solid #e5e5e5; padding: 15px">
+                    <form class="form-horizontal style-form" method="POST">
+                        <div class="row mt">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-sm-4"><label class="control-label">Product Name:</label></div>
+                                    <div class="col-sm-8">
+                                        <input class="form-control editproduct" type="text" id="editProductName" name="Name" />
+                                        <input class="form-control  editproduct" type="hidden" id="ProductId" name="ProductId" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4"><label class="control-label">Product Price:</label></div>
+                                    <div class="col-sm-8">
+                                        <input class="form-control editproduct" type="text" id="editProductPrice" name="Price" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4"><label class="control-label">Release Date:</label></div>
+                                    <div class="col-sm-8">
+                                        <input class="form-control editproduct" type="text" id="editProductReleaseDate" name="ReleaseDate" />
+                                    </div>
+                                </div>
+                            </div>                           
+                        </div>
+                        <div class="col-lg-12">
+                            <button type="button" class="btn btn-secondary" onclick='javascript: return $("#editProductModal").modal("hide");'>Close</button>
+                            <button type="button" style="display: none" class="btn btn-primary"  id="btnSaveProductChanges">Save</button>
+                            <button type="button" style="display: none" class="btn btn-danger"  id="btnDeleteProduct">Remove</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addCommentModal" tabindex="-1" role="dialog" aria-labelledby="addCommentModal" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" style="width:40%">
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center;">
+                <h2 class="modal-title capture-modal-title" id="modalHeading">Add Product Comment</h2>
+            </div>
+            <div class="modal-body">
+                <div class="row mt" style="border-bottom: 1px solid #e5e5e5; padding: 15px">
+                    <form class="form-horizontal style-form" method="POST">
+                        <div class="row mt">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-sm-4"><label class="control-label">Email:</label></div>
+                                    <div class="col-sm-8">
+                                        <input class="form-control commentproduct" type="text" id="commentEmail" name="Email" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4"><label class="control-label">Comment:</label></div>
+                                    <div class="col-sm-8" align="left">
+                                        <textarea class="form-control commentproduct" placeholder="Enter a comment here" name="comment" id="productComment" maxlength="500" rows="3" data-rule=""></textarea>
+                                        <input class="form-control  commentproduct" type="hidden" id="commentProductId" name="ProductId" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <button type="button" class="btn btn-secondary" onclick='javascript: return $("#addCommentModal").modal("hide");'>Close</button>
+                            <button type="button" class="btn btn-primary" id="btnAddComment">Save Comment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewStatProductModal" tabindex="-1" role="dialog" aria-labelledby="viewStatProductModal" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" style="width:50%">
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center;">
+                <h2 class="modal-title capture-modal-title" id="modalHeading">Product Statistics Product</h2>
+            </div>
+            <div class="modal-body">
+                <div class="row mt" style="border-bottom: 1px solid #e5e5e5; padding: 15px">
+                    <form class="form-horizontal style-form" method="POST">
+                        <div class="row mt">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-sm-6"><label class="control-label">Total number of Products:</label></div>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" type="text" id="TotalNumberProducts" name="TotalNumberProducts"  readonly/>
+                                    </div>
+                                </div>                      
+                            </div>
+                        </div>
+                        <div class="col-lg-12" >
+                            <button type="button"  style="float: right; display:inline-block;" class="btn btn-secondary" onclick='javascript: return $("#viewStatProductModal").modal("hide");'>Close</button>                           
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+           
+            LoadProductsData();
+            $("#btnAddProduct").on("click", function () {               
+                let Product = {};
+                $(".newproduct").each(function (index) {
+                    if ($(this).attr("name") !== undefined) {
+                        Product[this.name] = $(this).val();
+                    }
+                });                
+                SaveProduct(Product);
+            });
+
+            $("#btnSaveProductChanges").on("click", function () {
+                let Product = {};
+                $(".editproduct").each(function (index) {
+                    if ($(this).attr("name") !== undefined) {
+                        Product[this.name] = $(this).val();
+                    }
+                });               
+                EditProduct(Product);
+            });
+
+            $("#btnDeleteProduct").on("click", function () {
+                let Product = {};
+                $(".editproduct").each(function (index) {
+                    if ($(this).attr("name") !== undefined) {
+                        Product[this.name] = $(this).val();
+                    }
+                });
+                DeleteProduct(Product)
+            });
+            
+            $("#btnAddComment").on("click", function () {
+                let Comment = {};
+                $(".commentproduct").each(function (index) {
+                    if ($(this).attr("name") !== undefined) {
+                        Comment[this.name] = $(this).val();
+                    }
+                });
+                SaveComment(Comment)
+            });
+
+        });
+        function LoadProductsData() {           
+            $.ajax({
+                url: `api/v1/products/productlist`,
+                type: "GET",
+                cache: false,               
+                success: function (productlist) {
+                    BindProductsTable(productlist);
+                },
+                error: function (req, status, error) {
+                    console.log(req);
+                }
+            });
+        }
+
+        function BindProductsTable(productlist ) {
+            var productTable = undefined;
+
+            if (productTable == undefined) {
+
+                productTable = $('#productTable').DataTable({
+                    data: productlist,                 
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    columns: [
+                        {
+                            className: 'dt-control',
+                            orderable: false,
+                            data: null,
+                            defaultContent: '',
+                        },
+                        { data: 'Name' },
+                        { data: 'Price' },
+                        { data: 'ReleaseDate' },
+                        {
+                            data: null,
+                            className: 'dt-edit',
+                            orderable: false,
+                            render: function (data) {
+                                let editButton = `<button title="Edit" class="btn btn-primary btn-xs edit-product">Edit</button>
+                            <button title="Add order comment" class="btn btn-primary btn-xs add-comment">Add Comment</button>
+                            <button title="Delete Product" class="btn btn-danger btn-xs delete-product">Delete</button>`;
+                                return editButton;
+                            }
+                        }
+                    ]
+                });
+
+                $('#productTable tbody').on('click', '.edit-product', function () {                    
+                    let data = productTable.row($(this).closest('tr')).data();                    
+                    $(".editproduct").each(function (index) {                    
+                        for (let attribute in data) {
+                            if ($(this).attr("name") !== undefined && $(this).attr("name") == attribute) {
+                                $(this).val(data[attribute]);
+                            }
+                        }
+                    });
+                    $("#modalHeading").text("Edit Product");
+                    $("#btnSaveProductChanges").show();
+                    $("#editProductModal").modal('show');
+                });
+
+                $('#productTable tbody').on('click', '.delete-product', function () {
+                    let data = productTable.row($(this).closest('tr')).data();                   
+                    $(".editproduct").each(function (index) {
+                        for (let attribute in data) {
+                            if ($(this).attr("name") !== undefined && $(this).attr("name") == attribute) {
+                                $(this).val(data[attribute]);
+                                $(this).prop("readonly", true);
+                            }
+                        }
+                    });
+                    $("#modalHeading").text("Delete Current Product");
+                    $("#btnDeleteProduct").show();
+                    $("#editProductModal").modal('show');
+                });
+
+                $('#productTable tbody').on('click', '.add-comment', function () {
+                    let data = productTable.row($(this).closest('tr')).data();
+                    $("#commentProductId").val(data.ProductId);                
+                    $("#addCommentModal").modal('show');
+                });
+
+                $('#productTable tbody').on('click', 'td.dt-control', function () {
+                    var tr = $(this).closest('tr');
+                    var row = productTable.row(tr);
+                    let data = productTable.row($(this).closest('tr')).data();                
+                    if (row.child.isShown()) {
+                        // This row is already open - close it
+                        row.child.hide();
+                        tr.removeClass('shown');
+                    } else {
+                        // Open this row
+                        showProductComments(data.ProductId, row);
+                        tr.addClass('shown');
+                    }
+                });
+
+            }
+
+     
+        }
+
+
+        function showProductComments(ProductId, row) {
+            
+            $.when($.ajax({
+                url: `api/v1/products/comment?productId=${ProductId}`,
+                type: "GET",
+                cache: false,
+                success: function (CommentListResponse) {
+                    debugger;
+                },
+                error: function (req, status, error) {
+                    console.log(req);
+                }
+            })).done(function (CommentList) {
+                debugger;
+                let childTable = ''
+                let childDataTable = undefined;
+                childTable = `<table  id="commentsTable" class="display hover table table-striped table-bordered" style="width:100%">
+                <thead>
+                <tr>
+                <th>Comment</th>
+                <th>Email</th>
+                <th>Date Of Comment</th>                
+                </tr>
+                </thead></table>`;
+
+                var elem = document.createElement("div");
+                elem.innerHTML = childTable;
+                childDataTable = $(elem).find("#commentsTable").DataTable({
+                    paging: false,
+                    data: CommentList,
+                    ordering: false,
+                    searching: false,
+                    info: false,
+                    processing: true,
+                    language: {
+
+                        processing: '<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>'
+                    },
+                    columns: [
+                        { data: 'comment' },
+                        { data: 'Email' },
+                        { data: 'DateOfComment' }
+                    ],
+                });
+
+                row.child(elem).show();
+            });
+            
+        }
+
+        function SaveComment(Comment) {
+            $.ajax({
+                type: 'POST',
+                cache: true,
+                url: `api/v1/products/addcomment`,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(Comment),
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (data) {
+                    console.log(data.responseText);
+                }
+            });
+        }
+        function DeleteProduct(Product) {
+            $.ajax({
+                type: 'POST',
+                cache: true,
+                url: `api/v1/products/deleteproduct`,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(Product),
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (data) {
+                    console.log(data.responseText);
+                }
+            });
+        }
+        function EditProduct(Product) {
+            $.ajax({
+                type: 'POST',
+                cache: true,
+                url: `api/v1/products/editproduct`,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(Product),
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (data) {
+                    console.log(data.responseText);
+                }
+            });
+        }
+        function SaveProduct(Product) {           
+            $.ajax({
+                type: 'POST',
+                cache: true,
+                url: `api/v1/products/addproduct`,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(Product),
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (data) {
+                   console.log(data.responseText);
+                }
+            });
+        }
+    </script>
+}
