@@ -1,7 +1,7 @@
 # TestApps
 ## Getting Started
 
-The project has been created in Visual Studio 2020.
+The project has been created in Visual Studio 2022.
 ### Folder Structure
 DataBase folder contains script needed to create test database and all the stored procedures used.
 ProductWebApp folder contains all the projects and whole solution.
