@@ -5,8 +5,10 @@ The project has been created in Visual Studio 2020.
 
 ### Prerequisites
 
-IIS web server
-SQL Management Studio
+1.IIS web server
+
+2.SQL Management Studio
+
 
 
 ### Solution structure
