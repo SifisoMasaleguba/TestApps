@@ -167,5 +167,21 @@ namespace ProductWebApp.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, json);
             }
         }
+
+        [Route("countproduct")]
+        public HttpResponseMessage GetProductNumber()
+        {
+            try
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, productManager.GetProductNumber());
+            }
+            catch (Exception ex)
+            {
+                var message = string.Format("Error occured" + ex);
+                HttpError error = new HttpError(message);
+                var json = JsonConvert.SerializeObject(error, Formatting.Indented);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, json);
+            }
+        }
     }
 }

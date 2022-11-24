@@ -38,6 +38,8 @@
                     <th align="left" class="productth">Price</th>
                     <th align="left" class="productth">Release Date</th>
                     <th align="left" class="productth">Action</th>
+                    <th align="left" class="productth">Number Of Comments</th>
+
                 </tr>
             </thead>
             <tbody></tbody>
@@ -130,7 +132,7 @@
     <div class="modal-dialog modal-lg" style="width:50%">
         <div class="modal-content">
             <div class="modal-header" style="text-align: center;">
-                <h2 class="modal-title capture-modal-title" id="modalHeading">Product Statistics Product</h2>
+                <h2 class="modal-title capture-modal-title" id="modalHeading">Product Statistics</h2>
             </div>
             <div class="modal-body">
                 <div class="row mt" style="border-bottom: 1px solid #e5e5e5; padding: 15px">
@@ -211,6 +213,7 @@
                 cache: false,               
                 success: function (productlist) {
                     BindProductsTable(productlist);
+                    CountActiveProduct();
                 },
                 error: function (req, status, error) {
                     console.log(req);
@@ -247,7 +250,8 @@
                             <button title="Delete Product" class="btn btn-danger btn-xs delete-product">Delete</button>`;
                                 return editButton;
                             }
-                        }
+                        },
+                        { data: 'NumerOfComments' }
                     ]
                 });
 
@@ -420,6 +424,22 @@
                    console.log(data.responseText);
                 }
             });
+        }
+
+        function CountActiveProduct() {
+            $.ajax({
+                url: `api/v1/products/countproduct`,
+                type: "GET",
+                cache: false,
+                success: function (count) {
+                    debugger;
+                    $("#TotalNumberProducts").val(count);
+                },
+                error: function (req, status, error) {
+                    console.log(req);
+                }
+            })
+
         }
     </script>
 }

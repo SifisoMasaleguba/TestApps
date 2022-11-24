@@ -10,26 +10,24 @@ GO
 
 /***********************************************************************************************************************************************************************************************************************************
 -- Author:			Sifiso
--- Create date:		2022-11-22
--- Description:		Return Comment
+-- Create date:		2022-11-24
+-- Description:		Return Total number of Products
+-- EXAMPLE : EXEC [dbo].[STP_COUNT_PRODUCTS]
 ************************************************************************************************************************************************************************************************************************************/
-ALTER PROCEDURE [dbo].[STP_COMMENT]
-(
-  @ProductId INT = NULL
-) AS
+CREATE PROCEDURE [dbo].[STP_COUNT_PRODUCTS]
+
+ 
+ AS
 
  BEGIN
 	SET NOCOUNT ON
 
-	SELECT
-	   C.ProductId,
-	   C.Comment,
-	   C.Email,
-	   DateOfComment
+	SELECT	   
+		COUNT(P.ProductId) AS TotalNumberOfProduct 
 	FROM
-		 [dbo].[COMMENT] C WITH (NOLOCK)
-	WHERE 1 = 1	
-		AND C.ProductId  = @ProductId
+		[dbo].[PRODUCT] P WITH (NOLOCK)
+	WHERE 1 = 1		
+		AND P.isProductDeleted = 0
 
 END
 

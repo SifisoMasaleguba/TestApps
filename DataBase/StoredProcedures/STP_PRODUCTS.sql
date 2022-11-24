@@ -22,13 +22,20 @@ CREATE PROCEDURE [dbo].STP_PRODUCTS
 	    P.ProductId,
 		P.[Name],
 		P.Price ,
-		P.ReleaseDate
+		P.ReleaseDate,
+		COUNT(C.ProductId) AS NumerOfComments 
 	FROM
-		[dbo].[PRODUCT] P WITH (ROWLOCK)
+		[dbo].[PRODUCT] P WITH (NOLOCK)
+		LEFT OUTER JOIN COMMENT C WITH(NOLOCK) ON C.ProductId = P.ProductId
 	WHERE 1 = 1	
 		AND (P.ProductId  = @ProductId OR ISNULL(@ProductId,-1) = -1)
 		AND P.isProductDeleted = 0
-
+		GROUP BY 
+				P.ProductId,
+				P.[Name],
+				P.Price ,
+				P.ReleaseDate,
+				C.ProductId
 END
 
 GO

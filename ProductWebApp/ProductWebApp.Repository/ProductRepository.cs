@@ -49,7 +49,10 @@ namespace ProductWebApp.Repository
         {
             return dataSourceWeb.Connection().Query<Product>("STP_PRODUCTS", null, commandType: CommandType.StoredProcedure).ToList();            
         }
-
+        public int GetProductNumber()
+        {
+            return dataSourceWeb.Connection().Query<int>("STP_COUNT_PRODUCTS", null, commandType: CommandType.StoredProcedure).First();
+        }
         public Product UpdateProduct(Product product)
         {
             var parameters = new DynamicParameters();

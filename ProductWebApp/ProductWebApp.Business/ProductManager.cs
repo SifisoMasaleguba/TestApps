@@ -48,5 +48,9 @@ namespace ProductWebApp.Business
             ProductRepository repository = new ProductRepository();
             repository.DeleteProduct(product);
         }
+        public int GetProductNumber() {
+            ProductRepository repository = new ProductRepository();
+            return repository.GetProductNumber();
+        }
     }
 }

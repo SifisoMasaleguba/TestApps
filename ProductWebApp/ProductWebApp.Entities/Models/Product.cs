@@ -12,5 +12,6 @@ namespace ProductWebApp.Entities.Models
         public string Name { get; set; }
         public float Price { get; set; }
         public string ReleaseDate { get; set; }
+        public int NumerOfComments { get; }
     }
 }
